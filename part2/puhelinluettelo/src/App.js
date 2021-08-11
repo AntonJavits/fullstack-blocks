@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import SearchFilter from './components/SearchFilter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 import './App.css'
 
 const App = () => {
@@ -27,7 +30,6 @@ const App = () => {
     setFilterValue(event.target.value)
   }
 
-
   const addPerson = (event) => {
     event.preventDefault()
     const personObj = {
@@ -41,40 +43,25 @@ const App = () => {
       setNewName('')
       setNewNumber('')
     }
-    
   }
   return (
     <div>
+
       <h1>Phonebook</h1>
-      <span>fiter shown with </span>
-      <input
-        value={filterValue}
-        onChange={handleFilterChange}
-      />
+      <SearchFilter value={filterValue} handler={handleFilterChange} />
+      
       <h2>Add new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          <span>name: </span>
-          <input
-            value={newName}
-            onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          <span>number: </span>
-          <input
-            value={newNumber}
-            onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName}
+        newNumber={newNumber}
+        handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange}
+      />
+
       <h2>Numbers</h2>
-      {personsToShow.map(person => 
-        <p key={person.name}>{person.name} {person.number}</p>  
-      )}
+      <Persons personsToShow={personsToShow} />
+
     </div>
   )
 }
