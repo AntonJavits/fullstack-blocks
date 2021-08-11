@@ -44,11 +44,15 @@ const App = () => {
       setNewNumber('')
     }
   }
+  const resetFilter = () => {
+    setFilterValue('')
+  }
+
   return (
     <div>
 
       <h1>Phonebook</h1>
-      <SearchFilter value={filterValue} handler={handleFilterChange} />
+      <SearchFilter value={filterValue} handler={handleFilterChange} resetHandler={resetFilter}/>
       
       <h2>Add new</h2>
       <PersonForm

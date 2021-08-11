@@ -6,6 +6,7 @@ const SearchFilter = (props) => {
         value={props.value}
         onChange={props.handler}
       />
+      {props.value !== '' && <button onClick={props.resetHandler}>Clear</button>}
     </>
   )
 }
