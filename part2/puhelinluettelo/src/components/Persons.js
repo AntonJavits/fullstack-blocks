@@ -1,10 +1,10 @@
 import SinglePerson from "./SinglePerson"
 
-const Persons = ({ personsToShow }) => {  
+const Persons = ({ personsToShow, handleDelete }) => {  
   return (
     <>
     {personsToShow.map(person => 
-      <SinglePerson key={person.name} name={person.name} number={person.number} />
+      <SinglePerson key={person.id} name={person.name} number={person.number} id={person.id} handleDelete={handleDelete} />
     )}
     </>
   )

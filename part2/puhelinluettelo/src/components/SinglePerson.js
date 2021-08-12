@@ -1,6 +1,7 @@
-const SinglePerson = ({ name, number }) => {
+const SinglePerson = ({ name, number, id, handleDelete }) => {
+  
   return (
-    <p>{name} {number}</p>  
+    <div>{name} {number} <button onClick={() => handleDelete(id)}>Delete</button></div>  
   )
 }
 
