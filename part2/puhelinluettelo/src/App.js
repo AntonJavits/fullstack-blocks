@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import personsService from './services/persons'
+import personsService from './services/personService'
 import SearchFilter from './components/SearchFilter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import './App.css'
+import Notification from './components/Notification'
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterValue, setFilterValue ] = useState('')
+  const [ message, setMessage ] = useState(null)
   
   useEffect(() => {
     personsService
@@ -38,6 +39,22 @@ const App = () => {
       .then(response => {
        setPersons(persons.map(person => person.id !== response.data.id ? person : response.data))
       })
+      .catch(error => {
+        setMessage(
+          `Contact ${obj.name} can't be updated, it's deleted from the server`
+        )
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+      })
+      setMessage(
+        `Contact ${obj.name} is updated`
+      )
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+
+      
   }
 
   const addPerson = (event) => {
@@ -57,12 +74,20 @@ const App = () => {
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewNumber('')
+          
+          setMessage(
+            `Contact ${personObj.name} added to the phonebook`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     }
   }
 
   const handleDelete = (id) => {
-    window.confirm(`Delete ${persons[persons.findIndex(x => x.id === id)].name}?`) && 
+    let name = persons[persons.findIndex(x => x.id === id)].name
+    window.confirm(`Delete ${name}?`) && 
     personsService
       .deletePerson(id)
       .then(response => {
@@ -70,6 +95,13 @@ const App = () => {
           return (person.id !== id)
         })
         setPersons(updatedPersons)
+
+        setMessage(
+          `Contact ${name} is deleted`
+        )
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
   }
 
@@ -80,6 +112,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message} />
 
       <h1>Phonebook</h1>
       <SearchFilter value={filterValue} handler={handleFilterChange} resetHandler={resetFilter}/>
