@@ -3,7 +3,7 @@ export const setNotification = (msg) => {
     type: 'SET_NOTIFICATION',
     data: msg
   }
-}
+} 
 
 const notificationReducer = (state = '', action) => {
   
